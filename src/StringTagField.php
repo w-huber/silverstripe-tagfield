@@ -8,6 +8,7 @@ use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\HTTPResponse;
 use SilverStripe\Dev\Deprecation;
 use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\Forms\Validator;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
@@ -416,4 +417,18 @@ class StringTagField extends DropdownField
 
         return $this;
     }
+
+    /**
+     * Converts the field to a readonly variant.
+     *
+     * @return ReadonlyField
+     */
+    public function performReadonlyTransformation()
+    {
+      /** @var ReadonlyField $copy */
+      $copy = $this->castedCopy(ReadonlyField::class);
+      $copy->setValue(implode(', ', $this->Value()));
+  
+      return $copy;
+    }    
 }
